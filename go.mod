@@ -1,4 +1,4 @@
-module github.com/thunderjr/go-openai-tools
+module github.com/thunderjr/deez-utils
 
 go 1.23.1
 

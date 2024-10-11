@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/openai/openai-go"
-	"github.com/thunderjr/go-openai-tools/pkg/tool"
+	"github.com/thunderjr/deez-utils/pkg/tool"
 )
 
 type location struct {
