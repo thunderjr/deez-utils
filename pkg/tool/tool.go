@@ -1,9 +1,9 @@
 package tool
 
-import "github.com/openai/openai-go"
+import "github.com/tmc/langchaingo/llms"
 
 type Tool interface {
 	Execute(args map[string]any) (string, error)
-	Register() openai.FunctionDefinitionParam
 	Name() string
+	Register() llms.FunctionDefinition
 }

@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/openai/openai-go"
-	"github.com/openai/openai-go/shared"
+	"github.com/tmc/langchaingo/llms"
 )
 
 type toolImpl[Params any] struct {
@@ -37,15 +36,20 @@ func (t toolImpl[Params]) Name() string {
 	return t.name
 }
 
-func (t toolImpl[Params]) Register() shared.FunctionDefinitionParam {
+func (t toolImpl[Params]) Register() llms.FunctionDefinition {
 	schema, err := StructToJSONSchema(new(Params))
 	if err != nil {
 		log.Fatalf("failed to generate JSON schema: %v", err)
 	}
 
-	return openai.FunctionDefinitionParam{
-		Name:        openai.String(t.Name()),
-		Description: openai.String(t.description),
-		Parameters:  openai.F(openai.FunctionParameters(schema)),
+	jsonSchema, err := json.Marshal(schema)
+	if err != nil {
+		log.Fatalf("failed to marshal JSON schema: %v", err)
+	}
+
+	return llms.FunctionDefinition{
+		Name:        t.name,
+		Description: t.description,
+		Parameters:  json.RawMessage(jsonSchema),
 	}
 }
